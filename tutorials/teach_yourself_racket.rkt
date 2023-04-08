@@ -69,3 +69,20 @@
 
 ;; Recursion
 (display "==recursion==\n")
+(define (fact n)
+  (cond
+    [(= n 1) 1]
+    [else (* n (fact (- n 1)))]))
+(fact 10)
+(fact 50)
+;; tail-recusion
+(define (fact-with-helper n)
+  ;; local function
+  (define (fact-helper n acc)
+    (cond
+      [(= n 1) acc]
+      [else (fact-helper (- n 1) (* n acc))]))
+  ;; body of fact-with-helper
+  (fact-helper n 1))
+(fact-with-helper 10)
+(fact-with-helper 50)

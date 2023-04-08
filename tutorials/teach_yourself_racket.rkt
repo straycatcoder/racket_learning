@@ -86,3 +86,31 @@
   (fact-helper n 1))
 (fact-with-helper 10)
 (fact-with-helper 50)
+
+;; Pairs - Compound data
+(display "==pairs==\n")
+(cons 1 2)
+(cons 1 empty)
+(cons 1 (cons 2 empty))
+(pair? (cons 1 2))
+(pair? (cons (list 2 3) 1))
+(pair? (cons 1 (list 2 3)))
+(pair? (list 1 2 3))
+
+(car (cons "first" "second"))
+(cdr (cons "first" "second"))
+(first (cons 1 (cons 2 (cons 3 empty))))
+(rest (cons 1 (cons 2 (cons 3 empty))))
+
+;; Quote and Symbols
+(display "==quote and symbols==\n")
+(quote (1 2 3 (4 5)))
+;; pair is not a list
+(list? (cons 1 2))
+(list? (quote (cons (1 2))))
+(list? empty)
+(symbol? 'map)
+(symbol? map)
+(procedure? map)
+(string->symbol "map")
+(symbol->string 'map)

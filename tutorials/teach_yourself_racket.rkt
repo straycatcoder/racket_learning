@@ -114,3 +114,22 @@
 (procedure? map)
 (string->symbol "map")
 (symbol->string 'map)
+;; quasiquote and unquote
+`(1 2 ,(length '(1 2 3)) 4 5)
+
+;; Strings
+(display "==strings==\n")
+(substring "weather" 2 4)
+(string-append "hello" "-" "world")
+(string->list "hello world")
+(list->string (reverse (string->list "hello world")))
+
+;; Struct and Tree
+(display "==struct/tree==\n")
+(struct bt (label left right) #:transparent)
+(define tree (bt "root"
+                 (bt "left child" empty empty)
+                 (bt "right child" empty empty)))
+(bt? tree)
+(bt-label tree)
+(bt-left tree)

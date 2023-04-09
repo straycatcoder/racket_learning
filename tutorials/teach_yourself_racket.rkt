@@ -133,3 +133,14 @@
 (bt? tree)
 (bt-label tree)
 (bt-left tree)
+
+;; testing
+(display "==testing==\n")
+(require math)
+(factorial 5)
+(require test-engine/racket-tests)
+(check-expect (factorial 5) 120)
+(check-expect (factorial 5) 100)
+(test)
+
+;; end of 1. Basics"

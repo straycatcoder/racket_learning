@@ -30,3 +30,17 @@
 (equal? 1 1.0)
 (= 1/2 0.5)
 (= 1/10 0.1)
+
+;; char: a unicode scalar value
+(integer->char 65)
+(integer->char #x03bb)
+(char->integer #\A)
+(char->integer #\space)
+(char->integer #\newline)
+;; char=? char-ci=?
+(char=? #\a #\A)
+(char-ci=? #\a #\A)
+;; char-alphabetic? char-numeric? char-whitespace?
+;; char-upcase char-downcase
+
+;; string: a fixed-length array of chars

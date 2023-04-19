@@ -31,6 +31,11 @@
 ;; empty? detects empty lists
 ;; cons? detects non-empty lists
 
+;; pair/cons, car/cdr
+;; pair is not a list
+
+;; reader layer -> expander layer
+
 ;; if example
 (define (double v)
   ((if (string? v) string-append +) v v))

@@ -44,3 +44,53 @@
 ;; char-upcase char-downcase
 
 ;; string: a fixed-length array of chars
+;; string written directly as expressions are immutable
+;; make-string: mutable string
+;; string-ref: access a char (0 based index)
+;; sting-set!: change a char in a string
+(string-ref "Apple" 1)
+(define s (make-string 10 #\.))
+s
+(string-set! s 2 #\A)
+s
+;; ording and case operations are generally locale-independent
+(string<? "apple" "Banana")
+(string-ci<? "apple" "Banana")
+(string<? "20230416" "20230415")
+
+;; Bytes and Byte Strings
+;; bytes: int [0~255]
+(byte? 0)
+(byte? 256)
+;; byte strins to process pure ASCII, prefix with #
+#"Apple"
+(bytes-ref #"Apple" 0)
+(define b (make-bytes 5 65))
+(bytes-set! b 2 255)
+b
+(display #"Apple\n")
+(display "\316\273\n")
+(display #"\316\273\n")
+
+(bytes->string/utf-8 #"\316\273")
+(bytes->string/latin-1 #"\316\273")
+
+;; Symbols
+;; an atomic value preceded with '
+;; symbole are case-sensitive
+(symbol? 'apple)
+(symbol? "apple")
+(eq? 'a (string->symbol "a"))
+;; Whitespace or special characters can be included
+;; in an identifier by quoting them with | or \.
+(string->symbol "one, two")
+(string->symbol "6")
+;; write prints a symbol without ' prefix
+(write 'Apple)
+(write '|6|)
+(display '|6|)
+;; gensym, string->uninterned-symbol
+;; fresh symbole not equal to any previous symbol
+(define su (gensym))
+su
+(eq? 'a (string->uninterned-symbol "a"))

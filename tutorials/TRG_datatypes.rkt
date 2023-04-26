@@ -94,3 +94,16 @@ b
 (define su (gensym))
 su
 (eq? 'a (string->uninterned-symbol "a"))
+
+;; keyword similar to symbol, prefixed with #:
+;; use (unquoted) as special markers in argument lists and other forms
+(string->keyword "apple")
+(eq? '#:apple (string->keyword "apple"))
+(define dir (find-system-path 'temp-dir))
+(with-output-to-file (build-path dir "stuff.txt")
+  (lambda () (printf "example\n"))
+  #:mode 'text
+  #:exists 'replace)
+
+;; Pairs and Lists
+

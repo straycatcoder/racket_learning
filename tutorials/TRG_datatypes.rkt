@@ -106,4 +106,39 @@ su
   #:exists 'replace)
 
 ;; Pairs and Lists
+;; pair joins two arbitray value
+;; cons, car, cdr, pair?
+;; list: empty list null, a pair cons (a list element, list)
+null
+(list? null)
+(list? (cons 1 (cons 2 null)))
+(list? (cons 1 2))
+(list 1 2 3 4 5)
+;; quasiquote and unquote
+`(1 2 ,(length '(1 2 3)) 4 5)
+;; map, andmap, ormap, filter, foldl, for-each, member, assoc
+(map (lambda (i) (/ 1 i)) '(1 2 3))
+(andmap (lambda (i) (< i 3)) '(1 2 3))
+(ormap (lambda (i) (< i 3)) '(1 2 3))
+(filter (lambda (i) (< i 3)) '(1 2 3))
+(foldl (lambda (v i) (+ v i))
+       10
+       '(1 2 3))
+(for-each (lambda (i) (display i))
+          '(1 2 3))
+(member "Keys" '("Florida" "Keys", "U.S.A."))
+(assoc 'where '((when "3:30") (where "Florida") (who "Mickey")))
+;; mutable pair: mcons, mcar, mcdr, set-mcar!, set_mcdr!, mpair?
+(define pp (mcons 1 2))
+(display pp)
+;; mutable pair is not a pair, same for the list
+(pair? pp)
+(mpair? pp)
 
+;; Vector
+;; vector is a fixed-length array of values
+;; vector->list, list->vectory
+#(1 2 3)
+(vector? #(1 2 3))
+(vector-ref #(4 5 6) 2)
+#10(1 2 3)

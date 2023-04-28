@@ -142,3 +142,39 @@ null
 (vector? #(1 2 3))
 (vector-ref #(4 5 6) 2)
 #10(1 2 3)
+(list->vector (map string-titlecase (vector->list #("three" "blind" "mice"))))
+
+;; Hash Tables
+;; hash table: mapping from keys to values
+;; make-hash make-hasheqv make-hasheq
+(define ht (make-hash))
+(hash-count ht)
+(hash-set! ht "apple" 'red)
+(hash-set! ht "banana" '(yellow long))
+(hash-ref ht "apple")
+;; mutable
+(define ht1 (hash "apple" 'red "banana" 'yellow))
+;; immutable
+(define ht2 #hash(("apple" . red) ("banana" . yellow)))
+(define ht3 (hash-set ht2 "coconut" 'brown))
+ht3
+;; weak hash
+(define ht4 (make-weak-hash))
+(hash-set! ht4 (gensym) "can you see me?")
+(collect-garbage)
+(hash-count ht4)
+
+;; Boxes
+;; box: a single-element vector
+(define bbox (box "apple"))
+bbox
+(unbox bbox)
+;; no need to unbox before sex-box!
+(set-box! bbox '(banana boat))
+bbox
+
+;; Void and Undefined
+(void)
+(void 1 2 3)
+(list (void))
+;; undefined constant

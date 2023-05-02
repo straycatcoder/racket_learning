@@ -31,8 +31,38 @@
 (define (fk x #:y y #:z [z 10])
   (list x y z))
 (apply fk #:y 2 '(1))
-(keyword-apply fk '(#;y) '(2) '(1))
+(keyword-apply fk '(#:y) '(2) '(1))
 (apply fk '(1) #:y 2 #:z 7)
 (keyword-apply fk '(#:y #:z) '(2 7) '(1))
 (keyword-apply fk #:z 7 '(#:y) '(2) '(1))
+
+;; lambda
+;; (lambda (arg-id ...) body ...+)
+((lambda (x y) (+ x y)) 1 2)
+;; lambda with a rest argument
+;; a single rest-id: any number of argument into a list
+((lambda x x) 1 2 3)
+((lambda x (first x)) 1 2 3)
+;; optional argument
+(define greet
+  (lambda (given [surname "Smith"])
+    (string-append "Hello, " given " " surname)))
+(greet "John")
+(greet "John" "Doe")
+;; keyword argument
+(define greet2
+  (lambda (#:hi [hi "Hello"] given #:last [surname "Smith"])
+    (string-append hi ", " given " " surname)))
+(greet2 "John")
+(greet2 "Karl" #:last "Marx")
+(greet2 "Karl" #:last "Marx" #:hi "Guten Tag")
+
+;; case-lambda: arity sensitive
+;; not directly support optional or keyword arguments
+(define greet3
+  (case-lambda
+    [(name) (string-append "Hello, " name)]
+    [(given surname) (string-append "Hello, " given " " surname)]))
+(greet3 "John")
+(greet3 "John" "Smith")
 

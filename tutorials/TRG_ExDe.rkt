@@ -66,3 +66,38 @@
 (greet3 "John")
 (greet3 "John" "Smith")
 
+;; (define id expr)
+;; (define (id arg ...) body ...+)
+;; (define (id arg ... . rest-id) body ...+)
+(define salutation (list-ref '("Hi" "Hello") (random 2)))
+salutation
+(define (greet4 name) (string-append salutation ", " name))
+(greet4 "John")
+(define (greet5 first [surname "Smith"] #:hi [hi salutation])
+  (string-append hi ", " first " " surname))
+(greet5 "John")
+(greet5 "John" #:hi "Hey")
+(greet5 "John" "Doe")
+;; rest-id
+(define (avg . l)
+  (/ (apply + l) (length l)))
+(avg)
+(avg 1 2 3 4 5)
+
+;; curried function shorthand
+
+;; (define make-add-suffix
+;;   (lambda (s2)
+;;     (lambda (s) (string-append s s2))))
+;; ==> 
+;; (define (make-add-suffix s2)
+;;   (lambda (s) (string-append s s2)))
+;; =>
+(define ((make-add-suffix s2) s)
+  (string-append s s2))
+((make-add-suffix "!") "hello")
+(define louder (make-add-suffix "!"))
+(define less-sure (make-add-suffix "?"))
+(less-sure "really")
+(louder "really")
+

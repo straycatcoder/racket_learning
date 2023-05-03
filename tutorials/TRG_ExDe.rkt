@@ -101,3 +101,44 @@ salutation
 (less-sure "really")
 (louder "really")
 
+;; multiple values/results
+(values 1 2 3)
+(define (split-name name)
+  (let ([parts (regexp-split " " name)])
+    (if (= (length parts) 2)
+        (values (list-ref parts 0) (list-ref parts 1))
+        (error "not a <first> <last> name"))))
+(split-name "John Doe")
+(split-name "John J. Doe")
+
+(define-values (given surname) (split-name "John Doe"))
+given
+surname
+
+;; local bining
+;; parallel binding: let
+;; sequential binding: let*
+;; recursive binding: letrec
+(let ([+ (lambda (x y)
+           (if (string? x)
+               (string-append x y)
+               (+ x y)))])
+  (list (+ 1 2)
+        (+ "see" "saw")))
+(let* ([x (list "Burroughs")]
+       [y (cons "Rice" x)]
+       [z (cons "Edgar" y)])
+  (list x y z))
+(let* ([name (list "Burroughs")]
+       [name (cons "Rice" name)]
+       [name (cons "Edgar" name)])
+  name)
+(letrec ([swing (lambda (t)
+                  (if (eq? (car t) 'tarzan)
+                      (cons 'vine (cons 'tarzan (cddr t)))
+                      (cons (car t)
+                            (swing (cdr t)))))])
+  (swing '(vine tarzan vine vine)))
+;; let-values, let*-vaules letrec-values
+(let-values ([(q r) (quotient/remainder 14 3)])
+  (list q r))

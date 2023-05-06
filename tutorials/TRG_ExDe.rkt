@@ -79,10 +79,9 @@ salutation
 (greet5 "John" #:hi "Hey")
 (greet5 "John" "Doe")
 ;; rest-id
-(define (avg . l)
+(define (avg1 . l)
   (/ (apply + l) (length l)))
-(avg)
-(avg 1 2 3 4 5)
+(avg1 1 2 3 4 5)
 
 ;; curried function shorthand
 
@@ -109,7 +108,8 @@ salutation
         (values (list-ref parts 0) (list-ref parts 1))
         (error "not a <first> <last> name"))))
 (split-name "John Doe")
-(split-name "John J. Doe")
+;; this will produce an error
+;;(split-name "John J. Doe")
 
 (define-values (given surname) (split-name "John Doe"))
 given
@@ -142,3 +142,35 @@ surname
 ;; let-values, let*-vaules letrec-values
 (let-values ([(q r) (quotient/remainder 14 3)])
   (list q r))
+
+;; conditions
+;; any value other than #f as true
+(member "Apple" '("Peach" "Pear"))
+(member "Apple" '("Peach" "Apple" "Pear"))
+
+;; if must have then-expr and else-expr
+;; (and expr ...) -> the value of last expr
+;; (or expre ...) -> the first non-#f value
+;; (and) -> #t, (or) -> #f
+(and)
+(or)
+(define (got-milk? lst)
+  (and (not (null? lst))
+       (or (eq? 'milk (car lst))
+           (got-milk? (cdr lst))))) ;; recurs only if needed
+(got-milk? '(apple banana))
+(got-milk? '(apple milk banana))
+(got-milk? '())
+
+;; cond
+;; if no true/no else -> #(void)
+(define (got-milk2? lst)
+  (cond
+    [(null? lst) #f]
+    [(eq? 'milk (car lst)) #t]
+    [else (got-milk2? (cdr lst))]))
+(got-milk2? '(apple milk banana))
+(got-milk2? '())
+;; [test-expr => proc-expr]
+;; [(memeber "Apple" lst)] => cdr]
+

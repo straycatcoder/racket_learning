@@ -174,3 +174,58 @@ surname
 ;; [test-expr => proc-expr]
 ;; [(memeber "Apple" lst)] => cdr]
 
+;; Sequencing
+;; interaction with the external enviroment
+(define (print-triangle height)
+  (if (zero? height)
+      (void)
+      (begin
+        (display (make-string height #\*))
+        (newline)
+        (print-triangle (sub1 height)))))
+(print-triangle 5)
+
+;; lambda, cond support implicit begin
+(define (print-triangle-cond height)
+  (cond
+    [(positive? height)
+     (display (make-string height #\*))
+     (newline)
+     (print-triangle-cond (sub1 height))]))
+(print-triangle-cond 5)
+
+;; sliced into the surrounding context
+(let ([curly 0])
+  (begin
+    (define moe (+ 1 curly))
+    (define larry (+ 1 moe)))
+  (list larry moe curly))
+
+;; begin0 returns the result of the first expr
+(define (log-times thunk)
+  (printf "Start: ~s\n" (current-inexact-milliseconds))
+  (begin0
+    (thunk)
+    (printf "End..: ~s\n" (current-inexact-milliseconds))))
+(log-times (lambda () (sleep 0.1) 0))
+(log-times (lambda () (values 1 2)))
+
+;; when: if-style conditional with sequencing for then without else
+;; unless: test-expr is #f
+(define (print-triangle-when height)
+  (unless (zero? height)
+    (display (make-string height #\*))
+    (newline)
+    (print-triangle-when (sub1 height))))
+(print-triangle-when 5)
+
+(define (enumerate lst)
+  (if (null? (cdr lst))
+      (printf "~a.\n" (car lst))
+      (begin
+        (printf "~a, " (car lst))
+        (when (null? (cdr (cdr lst)))
+          (printf "and "))
+        (enumerate (cdr lst)))))
+(enumerate '("Larry" "Curly" "Moe" "John"))
+

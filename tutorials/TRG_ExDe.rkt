@@ -229,3 +229,48 @@ surname
         (enumerate (cdr lst)))))
 (enumerate '("Larry" "Curly" "Moe" "John"))
 
+;; assignment: set!
+(define greeted null)
+(define (greet-set name)
+  (set! greeted (cons name greeted))
+  (string-append "Hello, " name))
+(greet-set "Anthos")
+(greet-set "Porthos")
+(greet-set "Aramis")
+greeted
+
+(define (make-running-total)
+  (let ([n 0])
+    (lambda ()
+      (set! n (+ n 1))
+      n)))
+(define win (make-running-total))
+(define lose (make-running-total))
+(win)
+(win)
+(lose)
+(win)
+;;when statful objects are necessary, use set! is fine
+(define next-number!
+  (let ([n 0])
+    (lambda ()
+      (set! n (add1 n))
+      n)))
+(next-number!)
+(next-number!)
+(next-number!)
+;; multiple values: set!-values
+(define game
+  (let ([w 0]
+        [l 0])
+    (lambda (win?)
+      (if win?
+          (set! w (+ w 1))
+          (set! l (+ l 1)))
+      (begin0
+        (values w l)
+        ;; (swap sides...
+        (set!-values (w l) (values l w))))))
+(game #t)
+(game #t)
+(game #f)

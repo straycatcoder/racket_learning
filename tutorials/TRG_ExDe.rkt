@@ -274,3 +274,56 @@ greeted
 (game #t)
 (game #t)
 (game #f)
+
+;; quote and '
+;; (quote datum)
+;; more typically used for symbols and lists
+(symbol? 'apple)
+(list? '())
+
+;; quasiquote and `
+;; for each (unquote expr, the expr is evaluated
+;; unquote ,
+(quasiquote (1 2 (unquote (+ 1 2)) (unquote (- 5 1))))
+`(1 2 ,(+ 1 2) ,(- 5 1))
+
+(define (deep n)
+  (cond
+    [(zero? n) 0]
+    [else
+     (quasiquote ((unquote n) (unquote (deep (- n 1)))))]))
+(deep 10)
+
+;; unquote-splicing ,@: produces list/vector
+(quasiquote (1 2 (unquote-splicing (list (+ 1 2) (- 5 1))) 5))
+`(1 2 ,@(list (+ 1 2) (- 5 1)) 5)
+
+;; simple dispatch: case
+;; matching the result of an expr to the values
+(let ([v (random 6)])
+  (printf "~a\n" v)
+  (case v
+    [(0) 'zero]
+    [(1) 'one]
+    [(2) 'two]
+    [else 'many]))
+
+;; dynamic binding: parameterize
+;; associates a new value with a parameter during the evalution of body expr
+;; advantages over set!
+;; auto reset value due to an exception
+;; work nicely with tail calls
+;; work properlly with threads
+(define location (make-parameter "here"))
+(location)
+(parameterize ([location "there"])
+  (location))
+(location)
+(define (here-there?)
+  (and (not (equal? (location) "here"))
+       (not (equal? (location) "there"))))
+(here-there?)
+(parameterize ([location "on a bus"])
+  (here-there?))
+
+            
